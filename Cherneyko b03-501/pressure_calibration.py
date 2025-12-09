@@ -3,6 +3,9 @@ from scipy import stats
 import extraFunctions
 import numpy as np
 
+plt.rcParams["font.family"] = "Comfortaa"  
+
+
 filename1 = 'turned_off_calibration.txt'
 filename2 = '0mm_calibration.txt'
 
@@ -34,30 +37,33 @@ intercept_new = -intercept/slope
 
 def pressure(y):
     y = np.asarray(y, dtype=np.float64)
-    return slope_new*y+intercept_new
+    return (y - intercept) / slope
 
 if __name__ == "__main__":
     print(f"Slope: {slope_new}")
     print(f"Intercept: {intercept_new}")
 
-    fig, ax = plt.subplots(figsize=(8, 6))
+    fig, ax = plt.subplots(figsize=(10, 8))
 
-    ax.scatter(x, y, color='red', s=100, zorder=5, label='Измеренные значения')
+    ax.scatter(x, y, color='orange', s=50, zorder=50, label='Измеренные значения')
 
     x_fit = np.array([x1, x2])
     y_fit = slope * x_fit + intercept
-    ax.plot(x_fit, y_fit, 'b--', linewidth=2, label=f'Fit: P = {slope_new:.4f}N - {-intercept_new:.2f}, Па ')
+    ax.plot(x_fit, y_fit, '--', color = '#d62728', linewidth=2, label=f'Fit: P = {slope_new:.4f}N - {-intercept_new:.2f}, Па ')
 
     equation_text = f'P = {slope_new:.4f}N - {-intercept_new:.2f}, Па'
     ax.text(0.05, 0.95, equation_text, transform=ax.transAxes, 
-            fontsize=12, verticalalignment='top',
+            fontsize=16, verticalalignment='top',
             bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
 
-    ax.set_xlabel('Давление, Па')
-    ax.set_ylabel('Отсчёты АЦП')
-    ax.set_title('Калибровка давления')
+    ax.set_xlabel('Давление, Па', fontsize = 16)
+    ax.set_ylabel('Отсчёты АЦП', fontsize = 16)
+    ax.set_title('Калибровка давления', fontsize = 20)
     ax.legend()
-    ax.grid(True, alpha=0.3)
+    ax.grid(True, which='major', color='black', linestyle='-', alpha=0.3)
+    ax.minorticks_on()
+    ax.grid(True, which='minor', color='gray', linestyle='--', alpha=0.2)
+
 
     plt.tight_layout()
     plt.show()

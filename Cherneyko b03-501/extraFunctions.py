@@ -13,3 +13,34 @@ def filter(filename,n):
         for value in filtered_data:
             file.write(f'{value}\n')
 
+# def find_center(x, y):
+#     x = np.asarray(x)
+#     y = np.asarray(y)
+    
+#     y = y - np.min(y)
+#     if np.sum(y) == 0:
+#         return None
+    
+#     center = np.sum(x * y) / np.sum(y)
+#     return center
+
+def find_center(x, y, top_fraction=0.25):
+    x = np.asarray(x, dtype=float)
+    y = np.asarray(y, dtype=float)
+
+    ymin = np.min(y)
+    ymax = np.max(y)
+    if ymax == ymin:
+        return None
+
+    cutoff = ymax - (ymax - ymin) * top_fraction
+
+    mask = y >= cutoff
+    if np.sum(mask) == 0:
+        return None
+
+    x_top = x[mask]
+    y_top = y[mask]
+
+    center = np.sum(x_top * y_top) / np.sum(y_top)
+    return center
