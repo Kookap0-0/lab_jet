@@ -40,7 +40,7 @@ def first_plot():
 
         x,y = process(filename)
         x = x - shift
-        x, y = extraFunctions.remove_outliers(x, y, window=4, threshold=1)
+        x, y = extraFunctions.remove_outliers(x, y, window=4, threshold=1.5)
         x, y = extraFunctions.remove_lower_outliers(x, y, percentile=3)
         y = y - np.min(y)
 
@@ -100,7 +100,7 @@ def third_plot(filename="Q_values.txt"):
     ax.set_ylabel('Массовый расход Q, г/с', fontsize=16)
     ax.set_title('Зависимость массового расхода от расстояния до сопла', fontsize=18, pad=15)
 
-# first_plot()
+first_plot()
 # second_plot()
 # third_plot()
 
@@ -110,8 +110,9 @@ ax.grid(True, which='major', color='black', linestyle='-', alpha=0.3)
 ax.minorticks_on()
 ax.grid(True, which='minor', color='gray', linestyle='--', alpha=0.2)
 
+
+plt.savefig('pressure.png', dpi=200)
 # plt.savefig('velocity.png', dpi=200)
-# plt.savefig('pressure.png', dpi=200)
 # plt.savefig('q.png', dpi=200)
 plt.tight_layout()
 plt.show()
