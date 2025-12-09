@@ -16,7 +16,7 @@ slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
 
 def distance(y):
     y = np.asarray(y, dtype=np.float64)
-    return slope*y+intercept
+    return slope*y*4*10
 
 if __name__ == "__main__":
         print(f"Угловой коэффициент (slope): {0.01*slope:.6f}")

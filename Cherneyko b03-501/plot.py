@@ -13,6 +13,7 @@ markers = ['o', 's', '^', 'd', 'v', '<', '>', 'p']
 filenames = ['10mm.txt', '20mm.txt', '30mm.txt', '40mm.txt', 
              '50mm.txt', '60mm.txt', '70mm.txt']
 
+
 def process(filename):
     extraFunctions.filter(filename, 3)
     
@@ -20,7 +21,8 @@ def process(filename):
         data = file.read().strip()
         y = list(map(float, data.split()))
         x = list(range(1, len(y) + 1))
-        y = pressure(y)
+        min_y = np.min(y)
+        y = pressure(y-min_y)
         x = distance(x)
         return x,y
 
@@ -30,21 +32,52 @@ def find_shift(filename):
 
 shift = find_shift(filenames[0])
 
-for i, filename in enumerate(filenames):
 
-    x,y = process(filename)
-    x = x - shift
+def first_plot():
+    for i, filename in enumerate(filenames):
 
-    ax.plot(x, y, 
-            color=colors[i % len(colors)], 
-            marker=markers[i % len(markers)],
-            markersize=2,
-            linewidth=1,
-            label=filename.replace('.txt', ''))
+        x,y = process(filename)
+        x = x - shift
+        x, y = extraFunctions.remove_outliers(x, y, window=4, threshold=1.5)
+        x, y = extraFunctions.remove_lower_outliers(x, y, percentile=3)
+        y = y - np.min(y)
 
-ax.set_xlabel('Расстояние от центра сопла, мм')
-ax.set_ylabel('Давление, Па')
-ax.set_title('Зависимость скорости от расстояния до центра сопла')
+        ax.plot(x, y, 
+                color=colors[i % len(colors)], 
+                marker=markers[i % len(markers)],
+                markersize=2,
+                linewidth=1,
+                label=filename.replace('.txt', ''))
+        ax.set_ylabel('Давление, Па', fontsize=16)
+
+def second_plot():
+    for i, filename in enumerate(filenames):
+
+        x,y = process(filename)
+        x = x - shift
+        x, y = extraFunctions.remove_outliers(x, y, window=4, threshold=1.5)
+        x, y = extraFunctions.remove_lower_outliers(x, y, percentile=3) 
+        y = y - min(y)
+
+        y = np.sqrt(2*y/1.2)
+
+
+        area = extraFunctions.integral_to_zero(x, y)
+        print(f"Файл {filename}: интеграл до нуля = {2*area}")
+
+        ax.plot(x, y, 
+                color=colors[i % len(colors)], 
+                marker=markers[i % len(markers)],
+                markersize=2,
+                linewidth=1,
+                label=f"{filename.replace('.txt', '')}, Q = {2*area:.2f} г/с")
+        ax.set_ylabel('Скорость, м/c', fontsize=16)
+
+# first_plot()
+second_plot()
+
+ax.set_xlabel('Расстояние от центра сопла, мм', fontsize=16)
+ax.set_title('Зависимость скорости от расстояния до центра сопла', fontsize=20)
 ax.legend(title='Расстояние от сопла')
 ax.grid(True, which='major', color='black', linestyle='-', alpha=0.3)
 ax.minorticks_on()

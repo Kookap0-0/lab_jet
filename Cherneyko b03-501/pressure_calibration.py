@@ -27,7 +27,7 @@ y2 = np.mean(y2_data)
 # Pressure values
 x1 = 0  # Pa (turned off)
 x2 = 125  # Pa (0mm calibration)
-
+#125
 x = [x1, x2]
 y = [y1, y2]
 
@@ -37,7 +37,7 @@ intercept_new = -intercept/slope
 
 def pressure(y):
     y = np.asarray(y, dtype=np.float64)
-    return (y - intercept) / slope
+    return y / slope
 
 if __name__ == "__main__":
     print(f"Slope: {slope_new}")
