@@ -48,7 +48,7 @@ def first_plot():
                 markersize=2,
                 linewidth=1,
                 label=filename.replace('.txt', ''))
-        ax.set_ylabel('Давление, Па', fontsize=16)
+        ax.set_ylabel('Давление, Па', fontsize=18, labelpad=10)
 
 def second_plot():
     for i, filename in enumerate(filenames):
@@ -71,17 +71,19 @@ def second_plot():
                 markersize=2,
                 linewidth=1,
                 label=f"{filename.replace('.txt', '')}, Q = {2*area:.2f} г/с")
-        ax.set_ylabel('Скорость, м/c', fontsize=16)
+        ax.set_ylabel('Скорость, м/c', fontsize=18)
 
 # first_plot()
-second_plot()
+# second_plot()
 
-ax.set_xlabel('Расстояние от центра сопла, мм', fontsize=16)
-ax.set_title('Зависимость скорости от расстояния до центра сопла', fontsize=20)
-ax.legend(title='Расстояние от сопла')
+ax.set_xlabel('Расстояние от центра сопла, мм', fontsize=18, labelpad=10)
+ax.set_title('Зависимость скорости от расстояния до центра сопла', fontsize=22, pad=15)
+ax.legend(title='Расстояние от сопла', markerscale=2, fontsize=16, title_fontsize=18)
 ax.grid(True, which='major', color='black', linestyle='-', alpha=0.3)
 ax.minorticks_on()
 ax.grid(True, which='minor', color='gray', linestyle='--', alpha=0.2)
 
+# plt.savefig('velocity.png', dpi=200)
+# plt.savefig('pressure.png', dpi=200)
 plt.tight_layout()
 plt.show()

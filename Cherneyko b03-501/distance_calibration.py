@@ -29,24 +29,24 @@ if __name__ == "__main__":
 
         ax.scatter(x, y, color='orange', s=100, zorder=5, label='Исходные точки')
 
-        ax.plot(x_range, y_range, '--', color = '#d62728', linewidth=2, label=f'y = {slope:.4f}x + {intercept:.4f}, см')
+        ax.plot(x_range, y_range, '--', color = '#d62728', linewidth=2, label=f'y = {slope:.4f}x + {intercept:.4f} см')
 
 
 
-        equation_text = f'y = {slope:.4f}x + {intercept:.4f}, см'
+        equation_text = f'y = {slope:.4f}x + {intercept:.4f} см'
         ax.text(0.05, 0.95, equation_text, transform=ax.transAxes, 
-                fontsize=16, verticalalignment='top',
+                fontsize=18, verticalalignment='top',
                 bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
 
-        ax.set_xlabel('Количество шагов', fontsize=16, labelpad=10)
-        ax.set_ylabel('Перемещение трубки Пито, см', fontsize=16, labelpad=10)
-        ax.set_title('Калибровочный график зависимости \n перемещения трубки Пито от шага двигателя', fontsize=20)
-        ax.legend(loc='best')
+        ax.set_xlabel('Количество шагов', fontsize=18, labelpad=10)
+        ax.set_ylabel('Перемещение трубки Пито, см', fontsize=18, labelpad=10)
+        ax.set_title('Калибровочный график зависимости \n перемещения трубки Пито от шага двигателя', fontsize=22, pad=15)
+        ax.legend(loc='best', markerscale=2, fontsize=16, title_fontsize=18)
         ax.grid(True, alpha=0.3)
         ax.grid(True, which='major', color='black', linestyle='-', alpha=0.3)
         ax.minorticks_on()
         ax.grid(True, which='minor', color='gray', linestyle='--', alpha=0.2)
 
-
+        plt.savefig('distance_calibration_plot.png', dpi=200)
         plt.tight_layout()
         plt.show()

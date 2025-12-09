@@ -49,21 +49,21 @@ if __name__ == "__main__":
 
     x_fit = np.array([x1, x2])
     y_fit = slope * x_fit + intercept
-    ax.plot(x_fit, y_fit, '--', color = '#d62728', linewidth=2, label=f'Fit: P = {slope_new:.4f}N - {-intercept_new:.2f}, Па ')
+    ax.plot(x_fit, y_fit, '--', color = '#d62728', linewidth=2, label=f'P = {slope_new:.4f}N - {-intercept_new:.2f} Па ')
 
-    equation_text = f'P = {slope_new:.4f}N - {-intercept_new:.2f}, Па'
+    equation_text = f'P = {slope_new:.4f}N - {-intercept_new:.2f} Па'
     ax.text(0.05, 0.95, equation_text, transform=ax.transAxes, 
-            fontsize=16, verticalalignment='top',
+            fontsize=18, verticalalignment='top',
             bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
 
-    ax.set_xlabel('Давление, Па', fontsize = 16)
-    ax.set_ylabel('Отсчёты АЦП', fontsize = 16)
-    ax.set_title('Калибровка давления', fontsize = 20)
-    ax.legend()
+    ax.set_xlabel('Давление, Па', fontsize = 18, labelpad=10)
+    ax.set_ylabel('Отсчёты АЦП', fontsize = 18, labelpad=10)
+    ax.set_title('Калибровка давления', fontsize = 22, pad=15)
+    ax.legend(markerscale=2, fontsize=16, title_fontsize=18)
     ax.grid(True, which='major', color='black', linestyle='-', alpha=0.3)
     ax.minorticks_on()
     ax.grid(True, which='minor', color='gray', linestyle='--', alpha=0.2)
 
-
+    plt.savefig('pressure_calibration_plot.png', dpi=200)
     plt.tight_layout()
     plt.show()
